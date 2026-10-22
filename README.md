@@ -21,14 +21,17 @@ Python scripts that collect for-sale home listings from Zillow across New York C
 
 ## Run it
 
+Zillow's bot protection only answers requests that carry a browser cookie. Open zillow.com in your browser, open the developer tools (Network tab), run a search, and copy the `cookie` request header from the `async-create-search-page-state` request. Then:
+
 ```bash
 pip install requests pandas
 cd web-miner
+export ZILLOW_COOKIE='<paste the cookie value>'   # PowerShell: $env:ZILLOW_COOKIE='<paste>'
 python scrapZillow.py     # downloads the search pages as JSON
 python JSONtoCSV.py       # combines them into new_york_properties.csv
 ```
 
-The request headers in `scrapZillow.py` were copied from a browser session. Zillow's bot protection rejects stale headers, so if requests start failing (status 403), copy fresh request headers from your browser's developer tools (Network tab, the `async-create-search-page-state` request) into `rawHeader`.
+The cookie is tied to your browser session, so keep it out of the code and out of git. If requests start failing (status 403), copy a fresh one.
 
 ## Notes
 

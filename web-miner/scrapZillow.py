@@ -2,6 +2,7 @@
 import requests
 import json
 import time
+import os
 
 def convert_headers(raw_header):
     header = dict()
@@ -17,7 +18,6 @@ accept-encoding:gzip, deflate, br, zstd
 accept-language:en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7
 content-length:450
 content-type:application/json
-cookie:REMOVED-see-README
 origin:https://www.zillow.com
 priority:u=1, i
 referer:https://www.zillow.com/chicago-il/?searchQueryState=%7B%22pagination%22%3A%7B%7D%2C%22isMapVisible%22%3Afalse%2C%22mapBounds%22%3A%7B%22west%22%3A-88.53531724414063%2C%22east%22%3A-86.92856675585938%2C%22south%22%3A41.43577538485671%2C%22north%22%3A42.229786589144794%7D%2C%22usersSearchTerm%22%3A%22Chicago%2C%20IL%22%2C%22regionSelection%22%3A%5B%7B%22regionId%22%3A17426%2C%22regionType%22%3A6%7D%5D%2C%22filterState%22%3A%7B%22sort%22%3A%7B%22value%22%3A%22globalrelevanceex%22%7D%7D%2C%22isListVisible%22%3Atrue%7D
@@ -29,6 +29,8 @@ sec-fetch-mode:cors
 sec-fetch-site:same-origin
 user-agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'''
 header = convert_headers(rawHeader)
+# Zillow's bot protection needs a browser cookie: copy it from your browser's dev tools
+header['cookie'] = os.environ['ZILLOW_COOKIE']
 
 pageNum=1 
 nextPage=True
